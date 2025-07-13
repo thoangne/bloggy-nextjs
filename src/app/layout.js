@@ -1,3 +1,4 @@
+import Image from "next/image";
 import "./globals.css";
 import { Sora } from "next/font/google";
 
@@ -27,8 +28,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${sora?.className} antialiased bg-gradient-to-b
-      from-[#141414] to-[#000000] text-white  relative `}
+        className={`${sora?.className} antialiased bg-gradient-to-r from-[#2c2b2b] via-purple-500 to-[#683c70] text-white  relative `}
       >
         {children}
       </body>
