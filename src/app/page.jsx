@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Header, Category, Footer } from "@/app/components/index";
 import {
+  background,
   defaultArticle,
   defaultAvatar,
   defaultCategory,
@@ -11,11 +12,22 @@ export default function Home() {
   return (
     <>
       <Header />
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background"
+          fill
+          className="object-cover opacity-50 pointer-events-none"
+          priority
+        />
+      </div>
       {/* Article */}
       <section
         className="py-5 my-20 grid lg:grid-cols-2 grid-cols-1 gap-7 px-5 lg:px-33
       "
       >
+        {/** Background */}
+
         <div className="relative h-[40rem] rounded-xl overflow-hidden shadow-xl">
           {/* Background image */}
           <Image
@@ -91,7 +103,7 @@ export default function Home() {
       </section>
       {/* hot picks */}
       <section className="lg:px-33 px-5 lg:my-30 my-10 ">
-        <div>
+        <div className="my-10 border-b  border-[#ffffff]">
           <h1 className="lg:text-7xl text-4xl font-bold"> Hot Picks</h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-7">
@@ -196,8 +208,8 @@ export default function Home() {
         </div>
       </section>
       <section className="lg:px-33 px-5 lg:my-30 my-10 ">
-        <div>
-          <h1 className="lg:text-7xl text-4xl font-bold"> Hand-Picked</h1>
+        <div className="my-10 border-b  border-[#ffffff]">
+          <h1 className="lg:text-7xl text-4xl font-bold"> Hot Picks</h1>
         </div>
         <div>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
@@ -269,8 +281,8 @@ export default function Home() {
         </div>
       </section>
       <section className="lg:px-33 px-5 lg:my-30 my-10 ">
-        <div>
-          <h1 className="lg:text-7xl text-4xl font-bold"> Hand-Picked</h1>
+        <div className="my-10 border-b  border-[#ffffff]">
+          <h1 className="lg:text-7xl text-4xl font-bold"> Hot Picks</h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-7">
           {Array.from({ length: 5 }).map((_, i) => (

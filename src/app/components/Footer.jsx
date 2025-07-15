@@ -3,7 +3,7 @@ const Copyright = () => {
   const text = "© 2025 thoangne. All rights reserved.";
 
   return (
-    <p className="text-center text-sm text-gray-500 mt-10">
+    <p className="text-center text-sm text-[#000] mt-10 bg-gradient-to-l from-[#ec7dee] to-[#f630c5]  ">
       {text.split("").map((char, idx) => (
         <span
           key={idx}
@@ -19,8 +19,8 @@ const Copyright = () => {
 
 const Footer = () => {
   return (
-    <>
-      <footer className="px-5 lg:px-32 py-10 my-20 border-t border-gray-600 text-white">
+    <div className="backdrop-blur-md">
+      <footer className="px-5 lg:px-32 py-10 mt-20 border-t border-[#f7cece] text-white  ">
         <div className="flex flex-col lg:flex-row justify-between gap-y-8 lg:gap-12">
           {/* Logo + slogan + social */}
           <div>
@@ -114,7 +114,7 @@ const Footer = () => {
         </div>
       </footer>
       <Copyright />
-    </>
+    </div>
   );
 };
 

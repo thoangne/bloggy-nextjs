@@ -33,7 +33,7 @@ import Image from "next/image";
 const Header = () => {
   return (
     <>
-      <header className="flex  max-[480px]:flex-row lg:flex-row justify-between items-center bg-indigo-800 text-white mx-4 mt-4 px-6 py-4 rounded-full shadow-md space-y-4 lg:space-y-0">
+      <header className="flex  max-[480px]:flex-row lg:flex-row justify-between items-center bg-gradient-to-br from-[#570176] to-[#000] text-white mx-4 mt-4 px-6 py-4 rounded-full shadow-md space-y-4 lg:space-y-0">
         <Link href="/" className="mb-0">
           <h1 className="text-3xl font-bold cursor-pointer hover:opacity-90 transition-opacity items-center">
             Bloggy
