@@ -1,7 +1,8 @@
 import Image from "next/image";
 import "./globals.css";
 import { Sora } from "next/font/google";
-
+import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/AuthContext";
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
       <head>
         <title> {metadata?.title}</title>
         <meta name="description" content={metadata?.description} key="desc" />
+        <link rel="icon" href="/favicon.svg" />
 
         <link
           rel="stylesheet"
@@ -30,7 +32,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${sora?.className} antialiased bg-gradient-to-r from-[#2c2b2b] via-purple-500 to-[#683c70] text-white  relative `}
       >
-        {children}
+        <Toaster duration={1000} richColors position="top-right" />
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import {
   Menubar,
   MenubarContent,
@@ -29,104 +30,41 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { bg, defaultArticle, defaultAvatar } from "./images";
-import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+
 const Header = () => {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    setLoading(false);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.log(error.message);
+        toast.error("Logout failed");
+        setLoading(false);
+      }
+      toast.success("Logout successful");
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Something went wrong");
+      setLoading(false);
+    }
+  };
   return (
     <>
-      <header className="flex  max-[480px]:flex-row lg:flex-row justify-between items-center bg-gradient-to-br from-[#570176] to-[#000] text-white mx-4 mt-4 px-6 py-4 rounded-full shadow-md space-y-4 lg:space-y-0">
+      <header className="flex    max-[480px]:flex-row lg:flex-row justify-between items-center bg-gradient-to-br from-[#570176] to-[#000] text-white mx-4 mt-4 px-6 py-4 rounded-full shadow-md space-y-4 lg:space-y-0">
         <Link href="/" className="mb-0">
           <h1 className="text-3xl font-bold cursor-pointer hover:opacity-90 transition-opacity items-center">
             Bloggy
           </h1>
         </Link>
-
-        <Menubar
-          className={`  md:flex-row justify-center md:justify-end bg-inherit border-0 text-white rounded-full px-4 hover:cursor-pointer md:w-auto w-full
-        hidden md:flex lg:flex mb-0
-        `}
-        >
-          {/* Menu chinh */}
-          <MenubarMenu>
-            <MenubarTrigger className="hover:cursor-pointer  px-4 py-2 hover:text-gray-500 rounded-full transition">
-              Menu
-            </MenubarTrigger>
-            <MenubarContent align="end" className="rounded-md shadow-lg">
-              <MenubarItem>
-                <Link
-                  href="/"
-                  className="w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Home
-                </Link>
-              </MenubarItem>
-              <MenubarItem>
-                <Link
-                  href="/categories"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Categories
-                </Link>
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
-
-          {/* Dashboard */}
-          <MenubarMenu>
-            <MenubarTrigger className="bg-inherit border-0 hover:cursor-pointer px-4 py-2 hover:text-gray-500 rounded-full transition">
-              Dashboard
-            </MenubarTrigger>
-            <MenubarContent align="end" className="rounded-md shadow-lg">
-              <MenubarItem>
-                <Link
-                  href="/dashboard"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Overview
-                </Link>
-              </MenubarItem>
-              <MenubarItem>
-                <Link
-                  href="/dashboard/article/manage"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Create Article
-                </Link>
-              </MenubarItem>
-              <MenubarItem>
-                <Link
-                  href="/dashboard/article/all"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Article
-                </Link>
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
-          {/* Pages */}
-          <MenubarMenu>
-            <MenubarTrigger className=" hover:cursor-pointer px-4 py-2 hover:text-gray-500 rounded-full transition">
-              Pages
-            </MenubarTrigger>
-            <MenubarContent align="end" className="rounded-md shadow-lg">
-              <MenubarItem>
-                <Link
-                  href="/pages/about"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  About
-                </Link>
-              </MenubarItem>
-              <MenubarItem>
-                <Link
-                  href="/pages/contact"
-                  className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
-                >
-                  Contact
-                </Link>
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
-        </Menubar>
 
         <div className="flex gap-4 items-center">
           {/* Bookmarked Section */}
@@ -223,17 +161,77 @@ const Header = () => {
               </div>
             </DialogContent>
           </Dialog>
+          <Menubar className={"bg-inherit border-0"}>
+            <MenubarMenu>
+              <MenubarTrigger className=" hover:cursor-pointer   hover:text-gray-500 rounded-full transition">
+                <i className="fas fa-user text-xl" />
+              </MenubarTrigger>
+              <MenubarContent align="end" className="rounded-md shadow-lg">
+                <MenubarItem>
+                  <Link
+                    href="/dashboard"
+                    className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
+                  >
+                    Dashboard
+                  </Link>
+                </MenubarItem>
+                <MenubarItem>
+                  <Link
+                    href="/dashboard/profile"
+                    className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
+                  >
+                    Profile
+                  </Link>
+                </MenubarItem>
+                <MenubarItem>
+                  <Link
+                    href="/dashboard/article"
+                    className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
+                  >
+                    Article
+                  </Link>
+                </MenubarItem>
+                <MenubarItem>
+                  <Link
+                    href="/dashboard/article/manage"
+                    className="hover:cursor-pointer w-full block px-2 py-1 hover:text-gray-500 rounded"
+                  >
+                    Manage Article
+                  </Link>
+                </MenubarItem>
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
+
           {/* Login Section */}
-          <Link
-            href={"/auth/login"}
-            className="bg-gradient-to-r
+          {user ? (
+            <button
+              disabled={loading}
+              onClick={handleLogout}
+              className="bg-gradient-to-r
             hidden lg:flex-row lg:flex lg:items-center lg:gap-2
         from-indigo-500 to-pink-500 px-4 py-2                                                                                                                                                                                                                                                                                                                                                                          border-0 
         text-[15px] font-bold rounded-full 
          hover:cursor-pointer hover:bg-gradient-to-l hover:from-pink-500 hover:to-indigo-500 transition duration-500 hover:text-gray-200 "
-          >
-            Login <i className="fas fa-sign-in-alt"></i>
-          </Link>
+            >
+              {loading ? (
+                <i className="fas fa-spinner animate-spin"></i>
+              ) : (
+                <i className="fas fa-sign-out-alt"></i>
+              )}
+            </button>
+          ) : (
+            <Link
+              href={"/auth/login"}
+              className="bg-gradient-to-r
+            hidden lg:flex-row lg:flex lg:items-center lg:gap-2
+        from-indigo-500 to-pink-500 px-4 py-2                                                                                                                                                                                                                                                                                                                                                                          border-0 
+        text-[15px] font-bold rounded-full 
+         hover:cursor-pointer hover:bg-gradient-to-l hover:from-pink-500 hover:to-indigo-500 transition duration-500 hover:text-gray-200 "
+            >
+              Login <i className="fas fa-sign-in-alt"></i>
+            </Link>
+          )}
           <Sheet>
             <SheetTrigger className="lg:hidden">
               <i className="fas fa-bars text-2xl ms-3" />
