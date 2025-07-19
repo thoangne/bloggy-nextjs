@@ -1,4 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+https://drawsql.app/teams/thoang-nguy/diagrams/bloggy diagram
+https://supabase.com/dashboard/project/lgfuvpyvrokkwfjkcbuc database
 
 ## Getting Started
 
