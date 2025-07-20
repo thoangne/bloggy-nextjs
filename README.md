@@ -65,10 +65,15 @@ Runs the app locally at: http://localhost:3000
   globals.css
 ```
 ##Database 
+
   [drawsql](https://drawsql.app/teams/thoang-nguy/diagrams/bloggy)
+  
 ##🙌 Credits 
+
 [NextJs](https://nextjs.org/docs)
+
 [Supabase](https://supabase.com/)
+
 [ShadCN UI](https://ui.shadcn.com/)
 
 
