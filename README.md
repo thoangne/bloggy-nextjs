@@ -37,7 +37,7 @@ npm run dev
 
 Runs the app locally at: http://localhost:3000
 ```
-##📁 Project Structure (App Router)
+## 📁 Project Structure (App Router)
 ```bash
 /app
   /[slug]
@@ -64,11 +64,11 @@ Runs the app locally at: http://localhost:3000
 /styles
   globals.css
 ```
-##Database 
+## Database 
 
   [drawsql](https://drawsql.app/teams/thoang-nguy/diagrams/bloggy)
   
-##🙌 Credits 
+## 🙌 Credits 
 
 [NextJs](https://nextjs.org/docs)
 
