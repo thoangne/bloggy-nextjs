@@ -27,19 +27,17 @@ npm install
 
 # Create .env.local
 cp .env.example .env.local
-
-```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
+
 ## 🧪 Development
-```
+
 npm run dev
- ```
+
 Runs the app locally at: http://localhost:3000
 
 ##📁 Project Structure (App Router)
-```
+
 /app
   /[slug]
     page.jsx
@@ -64,7 +62,7 @@ Runs the app locally at: http://localhost:3000
   utils.ts
 /styles
   globals.css
-  ```
+
 ##🙌 Credits
 Next.js
 
