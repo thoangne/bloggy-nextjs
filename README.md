@@ -2,6 +2,7 @@
 
 A modern blog platform built with **Next.js 15**, **Supabase**, **TailwindCSS**, and **ShadCN UI**. Features include dynamic content, responsive UI, category filtering, pagination, and full CMS integration.
 
+*Note: This project is for educational purposes only.*
 ---
 
 ## 🚀 Tech Stack
@@ -29,15 +30,15 @@ npm install
 cp .env.example .env.local
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
+```
 ## 🧪 Development
-
+```bash
 npm run dev
 
 Runs the app locally at: http://localhost:3000
-
+```
 ##📁 Project Structure (App Router)
-
+```bash
 /app
   /[slug]
     page.jsx
@@ -62,16 +63,15 @@ Runs the app locally at: http://localhost:3000
   utils.ts
 /styles
   globals.css
+```
+##Database 
+  [drawsql](https://drawsql.app/teams/thoang-nguy/diagrams/bloggy)
+##🙌 Credits 
+[NextJs](https://nextjs.org/docs)
+[Supabase](https://supabase.com/)
+[ShadCN UI](https://ui.shadcn.com/)
 
-##🙌 Credits
-Next.js
 
---Supabase
 
---ShadCN UI
-
---Tailwind CSS
-
---Lucide Icons
 
 
