@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${sora?.className} antialiased bg-gradient-to-r from-[#2c2b2b] via-purple-500 to-[#683c70] text-white  relative `}
+        className={`${sora?.className} antialiased bg-gradient-to-r from-[#2c2b2b] via-purple-500 to-[#683c70] text-white scrollbar-custom  relative `}
       >
         <Toaster duration={1000} richColors position="top-right" />
         <AuthProvider>{children}</AuthProvider>

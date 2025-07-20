@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
+import Image from "next/image";
+import { background } from "@/app/components/images";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,6 +35,16 @@ export default function Login() {
   return (
     <div>
       <Header></Header>
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background"
+          fill
+          className="object-cover opacity-50 pointer-events-none"
+          priority
+        />
+      </div>
+
       <section className="lg:px-33 px-5 lg:my-20 my-10 flex justify-center items-center ">
         <div className="bg-[#000] backdrop-blur-md w-[33rem] p-10 rounded-2xl ">
           <div className="mb-10">

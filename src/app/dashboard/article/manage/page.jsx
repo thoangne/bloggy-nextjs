@@ -7,6 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
 import { slugify } from "@/lib/utils";
+import Image from "next/image";
+import { background } from "@/app/components/images";
 export default function CreatePostPage() {
   const router = useRouter();
   const { user } = useAuth();
@@ -95,6 +97,16 @@ export default function CreatePostPage() {
   return (
     <>
       <Header />
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background"
+          fill
+          className="object-cover opacity-50 pointer-events-none"
+          priority
+        />
+      </div>
+
       <section className="min-h-screen px-6 py-10  ">
         <div className="max-w-3xl mx-auto bg-black p-8 rounded-xl shadow-lg">
           <h1 className="text-3xl font-bold mb-6">Create New Post</h1>

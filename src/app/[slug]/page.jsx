@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { Header, Footer, Category } from "../components";
 import Image from "next/image";
-import { defaultArticle, defaultAvatar } from "../components/images";
+import {
+  background,
+  defaultArticle,
+  defaultAvatar,
+} from "../components/images";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
@@ -75,7 +78,7 @@ export default function page() {
     const { data: articleData, error: articleError } = await supabase
       .from("article")
       .select(
-        "id,title,content,thumbnail,views,slug,date_created,category:category_id(id,name,thumbnail),author:profile_id(id,full_name,job_title),like(id,date_created,profile:profile_id(full_name,image))"
+        "id,title,content,thumbnail,views,slug,date_created,category:category_id(id,name,thumbnail,color),author:profile_id(id,full_name,job_title),like(id,date_created,profile:profile_id(full_name,image))"
       )
       .eq("slug", slug)
       .single();
@@ -301,6 +304,15 @@ export default function page() {
     <div>
       {/* Header Section */}
       <Header />
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background"
+          fill
+          className="object-cover opacity-50 pointer-events-none"
+          priority
+        />
+      </div>
 
       {/* Article Section */}
       <section className="lg:px-33 px-5 my-20 z-10 relative">
@@ -312,7 +324,7 @@ export default function page() {
             alt="Article"
             className="w-full h-[30rem] object-cover absolute rounded-2xl "
           ></Image>
-          <div className="w-full h-[30rem] bg-black/80 absolute rounded-2xl z-10" />
+          <div className="w-full h-[30rem] bg-black/50 absolute rounded-2xl z-10" />
           <h1 className=" absolute text-xl font-semibold leading-[4rem]  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 w-full text-center text-white drop-shadow-md">
             {article?.title}
           </h1>
@@ -414,7 +426,7 @@ export default function page() {
               <h1 className="text-2xl mb-5 ">
                 {allComments?.length || "0"} Comments
               </h1>
-              <div className="space-y-6">
+              <div className="space-y-6 ">
                 {comments?.map((comment, index) => (
                   <div
                     key={index}

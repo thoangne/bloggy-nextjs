@@ -27,9 +27,10 @@ const Category = () => {
   });
   return (
     <div>
-      <h1 className="text-2x; font-bold border-b border-[#e0e0e066] mb-4">
-        Trending Categories
-      </h1>
+      <h1 className="text-2x; font-bold ">Trending Categories</h1>
+      <span className="text-xs text-gray-300 ">
+        Don't miss out on the hottest topics
+      </span>
 
       <div className=" space-y-4 mt-10">
         {categories?.map((category, index) => (

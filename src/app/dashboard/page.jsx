@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Footer, Header } from "../components";
-import { defaultAvatar } from "../components/images";
+import { background, defaultAvatar } from "../components/images";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -77,10 +77,20 @@ const page = () => {
   return (
     <div>
       <Header></Header>
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background"
+          fill
+          className="object-cover opacity-50 pointer-events-none"
+          priority
+        />
+      </div>
+
       <section className="lg:px-33 px-5 my-20 space-y-10 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 ">
           {statsArray.map((stat, index) => (
-            <div className="p-5 rounded-lg flex items-center gap-6 bg-[#000] border border-[#1a1a1ab4]">
+            <div className="p-5 rounded-lg flex items-center gap-6 bg-[#000] border border-[#1a1a1ab4] ">
               <i
                 className={`${stat?.icon} text-3xl rounded-lg p-3 ${stat?.bg} ${stat?.text}`}
               />
@@ -93,12 +103,12 @@ const page = () => {
         </div>
         {/*Post */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8">
-            <div className="space-y-1 mb-10">
+          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8 ">
+            <div className="space-y-1 mb-10 ">
               <h2 className="text-3xl font-bold">Posts</h2>
               <p className="text-sm text-gray-300">All Posts</p>
             </div>
-            <div className="overflow-y-scroll max-h-[40rem]">
+            <div className="overflow-y-scroll max-h-[40rem] scrollbar-custom ">
               {Array.from({ length: 10 }).map((key, i) => (
                 <div className="border border-[#222223] py-5 me-2 rounded-lg">
                   <div key={key} className="flex gap-4 items-center ">
@@ -161,12 +171,12 @@ const page = () => {
             </div>
           </div>
 
-          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8">
+          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8 scrollbar-custom">
             <div className="space-y-1 mb-10">
               <h2 className="text-3xl font-bold">Commment</h2>
               <p className="text-sm text-gray-300">Recent comment</p>
             </div>
-            <div className="overflow-y-scroll max-h-[40rem]">
+            <div className="overflow-y-scroll max-h-[40rem] scrollbar-custom">
               {comments.map((comment, i) => (
                 <div className="flex gap-4 items-center border-b border-[#000] p-5 ">
                   <Image
@@ -186,12 +196,12 @@ const page = () => {
               ))}
             </div>
           </div>
-          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8">
+          <div className="p-5 rounded-lg bg-[#000] border border-[#222] space-y-8 scrollbar-custom">
             <div className="space-y-1 mb-10">
               <h2 className="text-3xl font-bold">Notification</h2>
               <p className="text-sm text-gray-300">Unread notification</p>
             </div>
-            <div className="overflow-y-scroll max-h-[40rem]">
+            <div className="overflow-y-scroll max-h-[40rem] scrollbar-custom">
               {notification?.map((noti, i) => (
                 <div className="flex items-center gap-4 border-b border-[#000] py-5">
                   <i

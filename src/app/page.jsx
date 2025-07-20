@@ -20,7 +20,7 @@ export default function Home() {
     const { data, error } = await supabase
       .from("article")
       .select(
-        "id, title, content, thumbnail,views, slug, date_created, category:category_id(id, name, thumbnail), author:profile_id(id, full_name, job_title)"
+        "id, title, content, thumbnail,views, slug, date_created, category:category_id(id, name, thumbnail,color,icon), author:profile_id(id, full_name, job_title)"
       );
 
     if (error) {
@@ -75,9 +75,11 @@ export default function Home() {
           />
 
           {/* Nền mờ cứng mạnh mẽ */}
-          <div className="absolute bottom-[-1px] w-full bg-black/80 p-6 z-20 backdrop-blur-sm hover:cursor-pointer  ">
-            <div className="inline-flex items-center gap-2 bg-indigo-600 px-3 py-1 text-xs rounded-full mb-3 text-white">
-              <i className="fas fa-umbrella" />
+          <div className="absolute bottom-[-1px] w-full  bg-black/80 p-6 z-20 backdrop-blur-sm hover:cursor-pointer  ">
+            <div
+              className={`inline-flex items-center gap-2 ${articles[0]?.category?.color} px-3 py-1 text-xs rounded-full mb-3 text-white`}
+            >
+              <i className={articles[0]?.category?.icon || "fas fa-umbrella"} />
               <span className="font-medium">
                 {articles[0]?.category?.name || "Uncategorized"}
               </span>
@@ -102,7 +104,7 @@ export default function Home() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-5">
-          {articles.slice(1, 4).map((article, id) => (
+          {articles.slice(1, 5).map((article, id) => (
             <div className="" key={id}>
               <a href={`${article?.slug}`}>
                 <div className="relative h-[300px] w-full border-1 border-[#5552385] rounded-xl hover:border-2 hover:border-purple-500 hover:shadow-2xl hover:shadow-indigo-500/50 ">
@@ -113,11 +115,13 @@ export default function Home() {
                     src={article?.thumbnail || defaultArticle}
                     alt=""
                   />
-                  <div className="absolute bottom-[-2px] left-[-1px] w-[101%] h-[10rem] bg-gradient-to-t from-[#352929] to-transparent rounded-b-xl"></div>
+                  <div className="absolute bottom-[-2px] left-[-1px] w-[101%] bg-blue h-[10rem] bg-gradient-to-t from-[#352929] to-transparent rounded-b-xl"></div>
 
                   <div className="absolute bottom-0 p-3 space-y-3 rounded-b-xl">
-                    <div className="inline-flex items-center gap-2 bg-indigo-500 p-1 w-auto text-xs me-2 rounded-full ">
-                      <i className="fas fa-umbrella" />
+                    <div
+                      className={`inline-flex items-center gap-2 ${article?.category.color} p-1 w-auto text-xs me-2 rounded-full`}
+                    >
+                      <i className={`${article?.category?.icon}`} />
                       <p>{article?.category?.name}</p>
                     </div>
                     <h1 className="text-sm lg:text-xl font-bold drop-shadow-lg ">
@@ -175,12 +179,16 @@ export default function Home() {
                 ></Image>
                 <div className=" space-y-3 pt-5 ">
                   {/*post card body */}
-                  <div className="inline-flex items-center gap-2 bg-indigo-500 p-1 w-auto text-xs me-2 rounded-full ">
-                    <i className="fas fa-umbrella" />
+                  <div
+                    className={`inline-flex items-center gap-2 ${article?.category?.color}  p-1 w-auto text-xs me-2 rounded-full`}
+                  >
+                    <i className={`${article?.category?.icon}`} />
                     <p>{article?.category?.name}</p>
                   </div>
-                  <h1 className="text-sm lg:text-xl font-bold drop-shadow-lg ">
-                    {article.title}
+                  <h1
+                    className={`text-sm lg:text-2xl font-bold drop-shadow-lg line-clamp-2 `}
+                  >
+                    {article.title}{" "}
                   </h1>
                   <div className="flex items-center gap-5 text-xs text-gray-300 font-light">
                     <div className="flex gap-1 items-center">
@@ -237,8 +245,8 @@ export default function Home() {
             <div>
               <div className="my-10 ">
                 <h1 className="text-2xl font-bold mt-10 ">Recent Posts</h1>
-                <p className="italic font-normal text-xs mt-2 text-gray-500 ">
-                  All recent posts to keep you updateed
+                <p className="text-xs text-gray-300 ">
+                  All recent posts to keep you updated
                 </p>
               </div>
               {aritcleNew.map((article, id) => (
@@ -267,7 +275,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="lg:px-33 px-5 lg:my-30 my-10 ">
+      {/* <section className="lg:px-33 px-5 lg:my-30 my-10 ">
         <div className="my-10 border-b  border-[#ffffff]">
           <h1 className="lg:text-7xl text-4xl font-bold"> Hot Picks</h1>
         </div>
@@ -286,7 +294,6 @@ export default function Home() {
                   alt=""
                 ></Image>
                 <div className=" space-y-3 pt-5 ">
-                  {/*post card body */}
                   <div className="inline-flex items-center gap-2 bg-indigo-500 p-1 w-auto text-xs me-2 rounded-full ">
                     <i className="fas fa-umbrella" />
                     <p>Lifestyle</p>
@@ -310,7 +317,6 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-4 font-semibold bg-indigo-900 p-2 rounded-xl mt-2 ">
-                  {/*Post card footer */}
                   <div className="flex items-center gap-2 ">
                     <Image
                       className="w-8 h-8 object-cover rounded-full"
@@ -339,7 +345,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
       {/*
       
       <section className="lg:px-33 px-5 lg:my-30 my-10 ">

@@ -134,3 +134,23 @@
 .fade-in {
   animation: fade-in 10s ease-in-out infinite;
 }
+/* globals.css hoặc tương đương */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #ddd !important;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: #eee !important;
+}

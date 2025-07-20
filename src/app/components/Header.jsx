@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Menubar,
   MenubarContent,
@@ -36,10 +36,39 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 const Header = () => {
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [articles, setArticles] = useState([]); // Đây là danh sách article ban đầu
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [bookmarks, setBookmarks] = useState([]);
+  const fetchArticles = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("article")
+        .select(
+          "id,views,title,thumbnail,slug,date_created,category:category_id(id,name,thumbnail,color,icon),author:profile_id(id,full_name,job_title)"
+        );
+      if (error) {
+        console.error("Error fetching articles:", error);
+      } else {
+        setArticles(data);
+        setFilteredArticles(data);
+      }
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
+  const handleSearch = (e) => {
+    const keyword = e.target.value;
+    setSearchKeyword(keyword);
 
+    const results = articles.filter((article) =>
+      article.title.toLowerCase().includes(keyword.toLowerCase())
+    );
+    setFilteredArticles(results);
+  };
   const handleLogout = async () => {
     setLoading(false);
     try {
@@ -57,6 +86,48 @@ const Header = () => {
       setLoading(false);
     }
   };
+
+  const fetchBookmark = async () => {
+    const { data, error } = await supabase
+      .from("bookmark")
+      .select(
+        "id,article:article_id(title,views,thumbnail),profile_id(full_name)"
+      )
+      .eq("profile_id", user.id);
+
+    if (error) {
+      console.error("Error fetching bookmarks:", error);
+    }
+    setBookmarks(data);
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchBookmark();
+      fetchArticles();
+    }
+  }, [user]);
+
+  const handleDeleteBookmark = async (bookmarkId) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("bookmark")
+        .delete()
+        .eq("id", bookmarkId);
+      if (error) {
+        toast.error("Failed to remove bookmark");
+        console.error("Error deleting bookmark:", error);
+      }
+      toast.success("Bookmark removed successfully");
+      fetchBookmark();
+    } catch (error) {
+      console.error("Error deleting bookmark:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <header className="flex    max-[480px]:flex-row lg:flex-row justify-between items-center bg-gradient-to-br from-[#570176] to-[#000] text-white mx-4 mt-4 px-6 py-4 rounded-full shadow-md space-y-4 lg:space-y-0">
@@ -72,36 +143,46 @@ const Header = () => {
             <DialogTrigger>
               <i className="ri-heart-line text-2xl hover:cursor-pointer hover:text-gray-400"></i>
             </DialogTrigger>
-            <DialogContent className={"bg-[#0f060611] "}>
+            <DialogContent className={"bg-[#262541]   "}>
               <DialogTitle>Bookmark</DialogTitle>
               {/* <DialogHeader>
             <h1>Bookmarked Article (3)</h1>
           </DialogHeader> */}
-              <div className="flex items-center space-x-2 mt-6">
+              <div className="flex items-center space-x-2 mt-6 scrollbar-custom">
                 <div className="grid flex-1 gap-2">
-                  <div className="overflow-y-auto max-h-[20rem]">
-                    <div key={1}>
-                      <Link href={"/"}>
-                        <div className="flex items-center gap-3 bg-[#232323] p-4 rounded-lg my-5">
-                          <img
-                            src={defaultArticle}
-                            alt=""
-                            className="w-33 h-20 object-cover rounded-lg"
-                          />
-                          <div className="space-y-2">
-                            <h3>Lorem ipsum dolor sit amet</h3>
-                            <div className="flex justify-between items-center gap-3">
-                              <p className="text-sm text-gray-400">
-                                <i className="fas fa-eye text-sm"></i> 123 view
-                              </p>
-                              <button className="bg-red-200 text-red-900 px-2 py-1 rounded hover:text-red-800 hover:bg-red-100 hover:cursor-pointer">
-                                <i className="fas fa-trash text-sm"></i>
-                              </button>
+                  <div className="overflow-y-auto max-h-[20rem] scrollbar-custom">
+                    {bookmarks?.map((bookmark, index) => (
+                      <div key={index}>
+                        <Link href={"/"}>
+                          <div className="flex items-center gap-3 bg-[#232323] p-4 rounded-lg my-5">
+                            <img
+                              src={bookmark?.article?.thumbnail}
+                              alt=""
+                              className="w-33 h-20 object-cover rounded-lg"
+                            />
+                            <div className="space-y-2">
+                              <h3>{bookmark?.article?.title}</h3>
+                              <div className="flex justify-between items-center gap-3">
+                                <p className="text-sm text-gray-400">
+                                  <i className="fas fa-eye text-sm"></i>{" "}
+                                  {bookmark?.article?.views}
+                                  view
+                                </p>
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleDeleteBookmark(bookmark?.id);
+                                  }}
+                                  className="bg-red-200 text-red-900 px-2 py-1 rounded hover:text-red-800 hover:bg-red-100 hover:cursor-pointer"
+                                >
+                                  <i className="fas fa-trash text-sm"></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -112,50 +193,43 @@ const Header = () => {
             <DialogTrigger>
               <i className="ri-search-line text-2xl hover:cursor-pointer hover:text-gray-400 "></i>
             </DialogTrigger>
-            <DialogContent
-              className={
-                "bg-[#0f060611] text-white  max-w-xl border-1 border-gray-800"
-              }
-            >
+            <DialogContent className={"bg-[#262541]   "}>
               <DialogTitle></DialogTitle>
               <DialogHeader>
                 <input
-                  className="border-1 border-[#232323] bg-[#000212]
-                placeholder:px-1
-                placeholder:text-sm placeholder:text-gray-400
-                rounded-lg outline-0 py-2 focus:ring-indigo-50 focus:ring-2  "
+                  className="border-1 border-[#232323] bg-[#000212] placeholder:text-sm placeholder:text-gray-400 rounded-lg outline-0 py-2 focus:ring-[#454545] focus:ring-2"
                   type="text"
                   placeholder="Search"
-                  name=""
-                  id=""
+                  value={searchKeyword}
+                  onChange={handleSearch}
                 />
               </DialogHeader>
               <div className="flex items-center space-x-2 mt-6">
                 <div className="grid flex-1 gap-2">
-                  <h1>3 Article found</h1>
-                  <div className="overflow-y-auto max-h-[20rem]">
-                    <div key={1}>
-                      <Link href={"/"}>
-                        <div className="flex items-center gap-3 bg-[#232323] p-4 rounded-lg my-5">
-                          <img
-                            src={defaultArticle}
-                            alt=""
-                            className="w-33 h-20 object-cover rounded-lg"
-                          />
-                          <div className="space-y-2">
-                            <h3>Lorem ipsum dolor sit amet</h3>
-                            <div className="flex justify-between items-center gap-3">
-                              <p className="text-sm text-gray-400">
-                                <i className="fas fa-eye text-sm"></i> 123 view
-                              </p>
-                              <button className="bg-red-200 text-red-900 px-2 py-1 rounded hover:text-red-800 hover:bg-red-100 hover:cursor-pointer">
-                                <i className="fas fa-trash text-sm"></i>
-                              </button>
+                  <h1>{filteredArticles.length} Article found</h1>
+                  <div className="overflow-y-auto max-h-[20rem] scrollbar-custom">
+                    {filteredArticles.map((article, index) => (
+                      <div key={article.id || index}>
+                        <Link href={`/${article.slug}`}>
+                          <div className="flex items-center gap-3 bg-[#232323] p-4 rounded-lg my-5">
+                            <img
+                              src={article.thumbnail || defaultArticle}
+                              alt={article.title}
+                              className="w-33 h-20 object-cover rounded-lg"
+                            />
+                            <div className="space-y-2">
+                              <h3 className="line-clamp-2">{article.title}</h3>
+                              <div className="flex justify-between items-center gap-3">
+                                <p className="text-sm text-gray-400">
+                                  <i className="fas fa-eye text-sm"></i>{" "}
+                                  {article?.views || 0} view
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
