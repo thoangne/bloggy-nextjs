@@ -1,38 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-https://drawsql.app/teams/thoang-nguy/diagrams/bloggy diagram
-https://supabase.com/dashboard/project/lgfuvpyvrokkwfjkcbuc database
+# 📝 Bloggy – Next.js + Supabase + TailwindCSS + ShadCN UI
 
-## Getting Started
+A modern blog platform built with **Next.js 15**, **Supabase**, **TailwindCSS**, and **ShadCN UI**. Features include dynamic content, responsive UI, category filtering, pagination, and full CMS integration.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+- **Next.js** 15 (App Router, SSR/ISR)
+- **React** 19
+- **Supabase** – Backend-as-a-Service (PostgreSQL, Auth, Storage)
+- **Tailwind CSS** 4 – Utility-first CSS
+- **ShadCN UI** – Component library built on Radix
+- **Lucide Icons**, **React-Quill**, **DOMPurify**, and more
+
+---
+
+## 📦 Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone project
+git clone https://github.com/your-username/bloggy.git
+cd bloggy
+
+# Install dependencies
+npm install
+
+# Create .env.local
+cp .env.example .env.local
+
 ```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+## 🧪 Development
+```
+npm run dev
+ ```
+Runs the app locally at: http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##📁 Project Structure (App Router)
+```
+/app
+  /[slug]
+    page.jsx
+  /auth
+    /login
+        page.jsx
+    /register
+        page.jsx
+  /categories
+    /[slug]
+        page.jsx
+    page.jsx
+  /dashboard
+    /article
+        page.jsx
+    /profile
+        page.jsx
+    page.jsx
+       
+/lib
+  supabase.ts
+  utils.ts
+/styles
+  globals.css
+  ```
+##🙌 Credits
+Next.js
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+--Supabase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+--ShadCN UI
 
-## Learn More
+--Tailwind CSS
 
-To learn more about Next.js, take a look at the following resources:
+--Lucide Icons
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
