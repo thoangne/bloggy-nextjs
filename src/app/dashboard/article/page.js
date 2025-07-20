@@ -1,5 +1,6 @@
 "use client";
 import { background } from "@/app/components/images";
+import Image from "next/image";
 import React, { useEffect } from "react";
 
 const page = () => {
